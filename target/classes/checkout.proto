@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.services.checkout";
+option java_outer_classname = "CheckoutServiceImpl";
+
+
+
+package checkout;
+
+// The Checkout service definition.
+service Checkout {
+    rpc TransferForCheckout (stream CartContents) returns (stream CartContents); //bidirectional streaming RPC
+    rpc ProcessPayment (stream CartContents) returns (Receipt); //client-side streaming RPC
+    rpc ApplyDiscount (ApplyVoucher) returns (VoucherResult); //simple RPC
+  }
+
+  // The request/response message containing the list of items and total price in the cart.
+  message CartContents {
+    repeated CartItem items = 1; // List of items in the cart
+    string cart_id = 2; // ID of the cart
+    float total = 3; // Total price of all items in the cart
+  }
+
+
+  // The request/response message containing the item ID, name, quantity in the cart and price.
+  message CartItem {
+    string item_id = 1; // ID of the item
+    string name = 2; // Name of the item
+    int32 quantity = 3; // Quantity of the item in the cart
+    float price = 4; // Price of the item
+  }
+
+  message Receipt {
+    string transaction_id = 1; // ID of the transaction
+    float total = 2; // Total price of all items in the cart
+    repeated CartItem purchased_items = 3; // List of the purchased items 
+  }
+
+  message ApplyVoucher {
+    string cart_id = 1; // ID of the cart 
+    string voucher_code = 2; // Voucher code
+  }
+  
+  message VoucherResult {
+    string cart_id = 1; // ID of the cart 
+    float discount_amount = 2; // Voucher discount amount
+    string message = 3; // Voucher apply result message
+    bool success = 4; // Success flag
+  }

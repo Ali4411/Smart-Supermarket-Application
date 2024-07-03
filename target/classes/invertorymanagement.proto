@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.services.inventorymanagement";
+option java_outer_classname = "InventoryManagementServiceImpl";
+
+
+
+package inventorymanagement;
+
+// The Inventory Managment service definition.
+service InventoryManager {
+  // Manage inventory
+  rpc CheckStock (ItemRequest) returns (StockLevel); //simple RPC
+  rpc UpdateStock (UpdateRequest) returns (Status); //simple RPC
+  rpc GetItemInfo (ItemRequest) returns (ItemInfo); //simple RPC
+}
+
+// The request message containing the item ID.
+message ItemRequest {
+  string item_id = 1; // ID of the item to check stock info and item info
+}
+
+// The response message containing the item ID and its stock level
+message StockLevel {
+  string item_id = 1; // ID of the item
+  int32 quantity = 2; // Available quantity
+}
+
+// The request message containing the item ID and quantity change (+/-)
+message UpdateRequest {
+  string item_id = 1; // ID of the item
+  int32 quantity = 2; // Quantity change (+/-)
+}
+
+// The response message containing the Status message and Success flag.
+message Status {
+  string message = 1; // Status message
+  bool success = 2; // Success flag
+}
+
+// The response message containing the item ID, name, description and price
+message ItemInfo {
+  string item_id = 1; // ID of the item
+  string name = 2; // Name of the item
+  string description = 3; // Description of the item
+  float price = 4; // Price of the item
+}
