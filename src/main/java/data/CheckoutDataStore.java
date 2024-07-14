@@ -41,7 +41,7 @@ public class CheckoutDataStore {
     }
 
     // Method to remove a product from the cart by ID
-    public boolean removeCartFromCheckout(String cartId) {
+    public static boolean removeCartFromCheckout(String cartId) {
         for (CheckoutCart cart : cartsInCheckout) {
             if (cart.getCartId().equals(cartId)) {
                 return cartsInCheckout.remove(cart);

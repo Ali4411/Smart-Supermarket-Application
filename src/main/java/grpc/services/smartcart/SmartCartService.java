@@ -20,6 +20,8 @@ import io.grpc.stub.StreamObserver;
 public class SmartCartService extends SmartCartImplBase {
     private static final Logger logger = Logger.getLogger(SmartCartService.class.getName());
 
+    private static InventoryManagerBlockingStub inventoryStub;
+
     public static void main(String[] args) {
 		
 		SmartCartService smartcartservice = new SmartCartService();
@@ -33,6 +35,9 @@ public class SmartCartService extends SmartCartImplBase {
 			    .start();
 			 
 			CartDataStore.initializeCarts();
+
+			ManagedChannel inventoryChannel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
+            inventoryStub = InventoryManagerGrpc.newBlockingStub(inventoryChannel);
 
 			logger.info("Server started, listening on " + port);
 			
@@ -104,13 +109,10 @@ public class SmartCartService extends SmartCartImplBase {
 
 	private ItemInfo getProductFromInventory(String productId)
 	{
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-        InventoryManagerBlockingStub blockingStub = InventoryManagerGrpc.newBlockingStub(channel);
-
         //preparing message to send
         ItemRequest request = ItemRequest.newBuilder().setItemId(productId).build();
 
         //retreving reply from service
-        return blockingStub.getItemInfo(request);
+        return inventoryStub.getItemInfo(request);
 	}
 }

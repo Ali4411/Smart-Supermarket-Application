@@ -168,9 +168,11 @@ public class CheckoutService extends CheckoutImplBase {
                     }
 
                     for (CheckoutItem checkoutItem : checkoutItems) {
-                        removeItemFromCart(checkoutItem.getItemId(), checkoutItem.getQuantity());
+                        removeItemFromCart(cartId, checkoutItem.getItemId(), checkoutItem.getQuantity());
                         reduceInventoryStock(checkoutItem.getItemId(), checkoutItem.getQuantity());
                     }
+
+                    CheckoutDataStore.removeCartFromCheckout(cartId);
 
                     reply = Receipt.newBuilder().setSuccess(true).addAllPurchasedItems(checkoutItems).setTotal(totalCost).setTransactionId(UUID.randomUUID().toString()).build();
                 }
@@ -202,10 +204,10 @@ public class CheckoutService extends CheckoutImplBase {
         return inventoryblockingStub.updateStock(request);
 	}
 
-    private void removeItemFromCart(String productId, int amountToReduce)
+    private void removeItemFromCart(String cartId, String productId, int amountToReduce)
 	{
         for(int i =0; i < amountToReduce; i++) {
-            CartUpdateRequest request5 = CartUpdateRequest.newBuilder().setCartId("cart_002").setItemId("item_003").build();
+            CartUpdateRequest request5 = CartUpdateRequest.newBuilder().setCartId(cartId).setItemId(productId).build();
 
             //retreving reply from service
             cartBlockingStub.removeFromCart(request5);
