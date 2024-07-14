@@ -5,22 +5,21 @@ package grpc.services.checkout;
 
 /**
  * <pre>
- * The request/response message containing the list of items and total price in the cart.
+ * The response message containing the list of items and total price in the checkout.
  * </pre>
  *
- * Protobuf type {@code checkout.CartContents}
+ * Protobuf type {@code checkout.CheckoutContents}
  */
-public  final class CartContents extends
+public  final class CheckoutContents extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:checkout.CartContents)
-    CartContentsOrBuilder {
+    // @@protoc_insertion_point(message_implements:checkout.CheckoutContents)
+    CheckoutContentsOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use CartContents.newBuilder() to construct.
-  private CartContents(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use CheckoutContents.newBuilder() to construct.
+  private CheckoutContents(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private CartContents() {
-    items_ = java.util.Collections.emptyList();
+  private CheckoutContents() {
     cartId_ = "";
     total_ = 0F;
   }
@@ -30,7 +29,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private CartContents(
+  private CheckoutContents(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -50,12 +49,16 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-              items_ = new java.util.ArrayList<grpc.services.checkout.CartItem>();
-              mutable_bitField0_ |= 0x00000001;
+            grpc.services.checkout.CheckoutItem.Builder subBuilder = null;
+            if (item_ != null) {
+              subBuilder = item_.toBuilder();
             }
-            items_.add(
-                input.readMessage(grpc.services.checkout.CartItem.parser(), extensionRegistry));
+            item_ = input.readMessage(grpc.services.checkout.CheckoutItem.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(item_);
+              item_ = subBuilder.buildPartial();
+            }
+
             break;
           }
           case 18: {
@@ -84,80 +87,54 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-        items_ = java.util.Collections.unmodifiableList(items_);
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CartContents_descriptor;
+    return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CheckoutContents_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CartContents_fieldAccessorTable
+    return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CheckoutContents_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            grpc.services.checkout.CartContents.class, grpc.services.checkout.CartContents.Builder.class);
+            grpc.services.checkout.CheckoutContents.class, grpc.services.checkout.CheckoutContents.Builder.class);
   }
 
-  private int bitField0_;
-  public static final int ITEMS_FIELD_NUMBER = 1;
-  private java.util.List<grpc.services.checkout.CartItem> items_;
+  public static final int ITEM_FIELD_NUMBER = 1;
+  private grpc.services.checkout.CheckoutItem item_;
   /**
    * <pre>
    * List of items in the cart
    * </pre>
    *
-   * <code>repeated .checkout.CartItem items = 1;</code>
+   * <code>.checkout.CheckoutItem item = 1;</code>
    */
-  public java.util.List<grpc.services.checkout.CartItem> getItemsList() {
-    return items_;
+  public boolean hasItem() {
+    return item_ != null;
   }
   /**
    * <pre>
    * List of items in the cart
    * </pre>
    *
-   * <code>repeated .checkout.CartItem items = 1;</code>
+   * <code>.checkout.CheckoutItem item = 1;</code>
    */
-  public java.util.List<? extends grpc.services.checkout.CartItemOrBuilder> 
-      getItemsOrBuilderList() {
-    return items_;
+  public grpc.services.checkout.CheckoutItem getItem() {
+    return item_ == null ? grpc.services.checkout.CheckoutItem.getDefaultInstance() : item_;
   }
   /**
    * <pre>
    * List of items in the cart
    * </pre>
    *
-   * <code>repeated .checkout.CartItem items = 1;</code>
+   * <code>.checkout.CheckoutItem item = 1;</code>
    */
-  public int getItemsCount() {
-    return items_.size();
-  }
-  /**
-   * <pre>
-   * List of items in the cart
-   * </pre>
-   *
-   * <code>repeated .checkout.CartItem items = 1;</code>
-   */
-  public grpc.services.checkout.CartItem getItems(int index) {
-    return items_.get(index);
-  }
-  /**
-   * <pre>
-   * List of items in the cart
-   * </pre>
-   *
-   * <code>repeated .checkout.CartItem items = 1;</code>
-   */
-  public grpc.services.checkout.CartItemOrBuilder getItemsOrBuilder(
-      int index) {
-    return items_.get(index);
+  public grpc.services.checkout.CheckoutItemOrBuilder getItemOrBuilder() {
+    return getItem();
   }
 
   public static final int CART_ID_FIELD_NUMBER = 2;
@@ -229,8 +206,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    for (int i = 0; i < items_.size(); i++) {
-      output.writeMessage(1, items_.get(i));
+    if (item_ != null) {
+      output.writeMessage(1, getItem());
     }
     if (!getCartIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, cartId_);
@@ -247,9 +224,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    for (int i = 0; i < items_.size(); i++) {
+    if (item_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, items_.get(i));
+        .computeMessageSize(1, getItem());
     }
     if (!getCartIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, cartId_);
@@ -268,14 +245,17 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof grpc.services.checkout.CartContents)) {
+    if (!(obj instanceof grpc.services.checkout.CheckoutContents)) {
       return super.equals(obj);
     }
-    grpc.services.checkout.CartContents other = (grpc.services.checkout.CartContents) obj;
+    grpc.services.checkout.CheckoutContents other = (grpc.services.checkout.CheckoutContents) obj;
 
     boolean result = true;
-    result = result && getItemsList()
-        .equals(other.getItemsList());
+    result = result && (hasItem() == other.hasItem());
+    if (hasItem()) {
+      result = result && getItem()
+          .equals(other.getItem());
+    }
     result = result && getCartId()
         .equals(other.getCartId());
     result = result && (
@@ -293,9 +273,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (getItemsCount() > 0) {
-      hash = (37 * hash) + ITEMS_FIELD_NUMBER;
-      hash = (53 * hash) + getItemsList().hashCode();
+    if (hasItem()) {
+      hash = (37 * hash) + ITEM_FIELD_NUMBER;
+      hash = (53 * hash) + getItem().hashCode();
     }
     hash = (37 * hash) + CART_ID_FIELD_NUMBER;
     hash = (53 * hash) + getCartId().hashCode();
@@ -307,69 +287,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static grpc.services.checkout.CartContents parseFrom(byte[] data)
+  public static grpc.services.checkout.CheckoutContents parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static grpc.services.checkout.CartContents parseFrom(java.io.InputStream input)
+  public static grpc.services.checkout.CheckoutContents parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static grpc.services.checkout.CartContents parseDelimitedFrom(java.io.InputStream input)
+  public static grpc.services.checkout.CheckoutContents parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static grpc.services.checkout.CartContents parseDelimitedFrom(
+  public static grpc.services.checkout.CheckoutContents parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static grpc.services.checkout.CartContents parseFrom(
+  public static grpc.services.checkout.CheckoutContents parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -382,7 +362,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(grpc.services.checkout.CartContents prototype) {
+  public static Builder newBuilder(grpc.services.checkout.CheckoutContents prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -399,29 +379,29 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * The request/response message containing the list of items and total price in the cart.
+   * The response message containing the list of items and total price in the checkout.
    * </pre>
    *
-   * Protobuf type {@code checkout.CartContents}
+   * Protobuf type {@code checkout.CheckoutContents}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:checkout.CartContents)
-      grpc.services.checkout.CartContentsOrBuilder {
+      // @@protoc_insertion_point(builder_implements:checkout.CheckoutContents)
+      grpc.services.checkout.CheckoutContentsOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CartContents_descriptor;
+      return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CheckoutContents_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CartContents_fieldAccessorTable
+      return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CheckoutContents_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              grpc.services.checkout.CartContents.class, grpc.services.checkout.CartContents.Builder.class);
+              grpc.services.checkout.CheckoutContents.class, grpc.services.checkout.CheckoutContents.Builder.class);
     }
 
-    // Construct using grpc.services.checkout.CartContents.newBuilder()
+    // Construct using grpc.services.checkout.CheckoutContents.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -434,17 +414,16 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getItemsFieldBuilder();
       }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      if (itemsBuilder_ == null) {
-        items_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
+      if (itemBuilder_ == null) {
+        item_ = null;
       } else {
-        itemsBuilder_.clear();
+        item_ = null;
+        itemBuilder_ = null;
       }
       cartId_ = "";
 
@@ -456,17 +435,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CartContents_descriptor;
+      return grpc.services.checkout.CheckoutServiceImpl.internal_static_checkout_CheckoutContents_descriptor;
     }
 
     @java.lang.Override
-    public grpc.services.checkout.CartContents getDefaultInstanceForType() {
-      return grpc.services.checkout.CartContents.getDefaultInstance();
+    public grpc.services.checkout.CheckoutContents getDefaultInstanceForType() {
+      return grpc.services.checkout.CheckoutContents.getDefaultInstance();
     }
 
     @java.lang.Override
-    public grpc.services.checkout.CartContents build() {
-      grpc.services.checkout.CartContents result = buildPartial();
+    public grpc.services.checkout.CheckoutContents build() {
+      grpc.services.checkout.CheckoutContents result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -474,22 +453,15 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public grpc.services.checkout.CartContents buildPartial() {
-      grpc.services.checkout.CartContents result = new grpc.services.checkout.CartContents(this);
-      int from_bitField0_ = bitField0_;
-      int to_bitField0_ = 0;
-      if (itemsBuilder_ == null) {
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          items_ = java.util.Collections.unmodifiableList(items_);
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.items_ = items_;
+    public grpc.services.checkout.CheckoutContents buildPartial() {
+      grpc.services.checkout.CheckoutContents result = new grpc.services.checkout.CheckoutContents(this);
+      if (itemBuilder_ == null) {
+        result.item_ = item_;
       } else {
-        result.items_ = itemsBuilder_.build();
+        result.item_ = itemBuilder_.build();
       }
       result.cartId_ = cartId_;
       result.total_ = total_;
-      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -528,41 +500,18 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof grpc.services.checkout.CartContents) {
-        return mergeFrom((grpc.services.checkout.CartContents)other);
+      if (other instanceof grpc.services.checkout.CheckoutContents) {
+        return mergeFrom((grpc.services.checkout.CheckoutContents)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(grpc.services.checkout.CartContents other) {
-      if (other == grpc.services.checkout.CartContents.getDefaultInstance()) return this;
-      if (itemsBuilder_ == null) {
-        if (!other.items_.isEmpty()) {
-          if (items_.isEmpty()) {
-            items_ = other.items_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureItemsIsMutable();
-            items_.addAll(other.items_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.items_.isEmpty()) {
-          if (itemsBuilder_.isEmpty()) {
-            itemsBuilder_.dispose();
-            itemsBuilder_ = null;
-            items_ = other.items_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-            itemsBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getItemsFieldBuilder() : null;
-          } else {
-            itemsBuilder_.addAllMessages(other.items_);
-          }
-        }
+    public Builder mergeFrom(grpc.services.checkout.CheckoutContents other) {
+      if (other == grpc.services.checkout.CheckoutContents.getDefaultInstance()) return this;
+      if (other.hasItem()) {
+        mergeItem(other.getItem());
       }
       if (!other.getCartId().isEmpty()) {
         cartId_ = other.cartId_;
@@ -586,11 +535,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      grpc.services.checkout.CartContents parsedMessage = null;
+      grpc.services.checkout.CheckoutContents parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (grpc.services.checkout.CartContents) e.getUnfinishedMessage();
+        parsedMessage = (grpc.services.checkout.CheckoutContents) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -599,32 +548,32 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-    private int bitField0_;
 
-    private java.util.List<grpc.services.checkout.CartItem> items_ =
-      java.util.Collections.emptyList();
-    private void ensureItemsIsMutable() {
-      if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-        items_ = new java.util.ArrayList<grpc.services.checkout.CartItem>(items_);
-        bitField0_ |= 0x00000001;
-       }
-    }
-
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        grpc.services.checkout.CartItem, grpc.services.checkout.CartItem.Builder, grpc.services.checkout.CartItemOrBuilder> itemsBuilder_;
-
+    private grpc.services.checkout.CheckoutItem item_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        grpc.services.checkout.CheckoutItem, grpc.services.checkout.CheckoutItem.Builder, grpc.services.checkout.CheckoutItemOrBuilder> itemBuilder_;
     /**
      * <pre>
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public java.util.List<grpc.services.checkout.CartItem> getItemsList() {
-      if (itemsBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(items_);
+    public boolean hasItem() {
+      return itemBuilder_ != null || item_ != null;
+    }
+    /**
+     * <pre>
+     * List of items in the cart
+     * </pre>
+     *
+     * <code>.checkout.CheckoutItem item = 1;</code>
+     */
+    public grpc.services.checkout.CheckoutItem getItem() {
+      if (itemBuilder_ == null) {
+        return item_ == null ? grpc.services.checkout.CheckoutItem.getDefaultInstance() : item_;
       } else {
-        return itemsBuilder_.getMessageList();
+        return itemBuilder_.getMessage();
       }
     }
     /**
@@ -632,48 +581,19 @@ private static final long serialVersionUID = 0L;
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public int getItemsCount() {
-      if (itemsBuilder_ == null) {
-        return items_.size();
-      } else {
-        return itemsBuilder_.getCount();
-      }
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public grpc.services.checkout.CartItem getItems(int index) {
-      if (itemsBuilder_ == null) {
-        return items_.get(index);
-      } else {
-        return itemsBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public Builder setItems(
-        int index, grpc.services.checkout.CartItem value) {
-      if (itemsBuilder_ == null) {
+    public Builder setItem(grpc.services.checkout.CheckoutItem value) {
+      if (itemBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureItemsIsMutable();
-        items_.set(index, value);
+        item_ = value;
         onChanged();
       } else {
-        itemsBuilder_.setMessage(index, value);
+        itemBuilder_.setMessage(value);
       }
+
       return this;
     }
     /**
@@ -681,17 +601,17 @@ private static final long serialVersionUID = 0L;
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public Builder setItems(
-        int index, grpc.services.checkout.CartItem.Builder builderForValue) {
-      if (itemsBuilder_ == null) {
-        ensureItemsIsMutable();
-        items_.set(index, builderForValue.build());
+    public Builder setItem(
+        grpc.services.checkout.CheckoutItem.Builder builderForValue) {
+      if (itemBuilder_ == null) {
+        item_ = builderForValue.build();
         onChanged();
       } else {
-        itemsBuilder_.setMessage(index, builderForValue.build());
+        itemBuilder_.setMessage(builderForValue.build());
       }
+
       return this;
     }
     /**
@@ -699,19 +619,21 @@ private static final long serialVersionUID = 0L;
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public Builder addItems(grpc.services.checkout.CartItem value) {
-      if (itemsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
+    public Builder mergeItem(grpc.services.checkout.CheckoutItem value) {
+      if (itemBuilder_ == null) {
+        if (item_ != null) {
+          item_ =
+            grpc.services.checkout.CheckoutItem.newBuilder(item_).mergeFrom(value).buildPartial();
+        } else {
+          item_ = value;
         }
-        ensureItemsIsMutable();
-        items_.add(value);
         onChanged();
       } else {
-        itemsBuilder_.addMessage(value);
+        itemBuilder_.mergeFrom(value);
       }
+
       return this;
     }
     /**
@@ -719,20 +641,17 @@ private static final long serialVersionUID = 0L;
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public Builder addItems(
-        int index, grpc.services.checkout.CartItem value) {
-      if (itemsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureItemsIsMutable();
-        items_.add(index, value);
+    public Builder clearItem() {
+      if (itemBuilder_ == null) {
+        item_ = null;
         onChanged();
       } else {
-        itemsBuilder_.addMessage(index, value);
+        item_ = null;
+        itemBuilder_ = null;
       }
+
       return this;
     }
     /**
@@ -740,113 +659,26 @@ private static final long serialVersionUID = 0L;
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public Builder addItems(
-        grpc.services.checkout.CartItem.Builder builderForValue) {
-      if (itemsBuilder_ == null) {
-        ensureItemsIsMutable();
-        items_.add(builderForValue.build());
-        onChanged();
+    public grpc.services.checkout.CheckoutItem.Builder getItemBuilder() {
+      
+      onChanged();
+      return getItemFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * List of items in the cart
+     * </pre>
+     *
+     * <code>.checkout.CheckoutItem item = 1;</code>
+     */
+    public grpc.services.checkout.CheckoutItemOrBuilder getItemOrBuilder() {
+      if (itemBuilder_ != null) {
+        return itemBuilder_.getMessageOrBuilder();
       } else {
-        itemsBuilder_.addMessage(builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public Builder addItems(
-        int index, grpc.services.checkout.CartItem.Builder builderForValue) {
-      if (itemsBuilder_ == null) {
-        ensureItemsIsMutable();
-        items_.add(index, builderForValue.build());
-        onChanged();
-      } else {
-        itemsBuilder_.addMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public Builder addAllItems(
-        java.lang.Iterable<? extends grpc.services.checkout.CartItem> values) {
-      if (itemsBuilder_ == null) {
-        ensureItemsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, items_);
-        onChanged();
-      } else {
-        itemsBuilder_.addAllMessages(values);
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public Builder clearItems() {
-      if (itemsBuilder_ == null) {
-        items_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
-      } else {
-        itemsBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public Builder removeItems(int index) {
-      if (itemsBuilder_ == null) {
-        ensureItemsIsMutable();
-        items_.remove(index);
-        onChanged();
-      } else {
-        itemsBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public grpc.services.checkout.CartItem.Builder getItemsBuilder(
-        int index) {
-      return getItemsFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public grpc.services.checkout.CartItemOrBuilder getItemsOrBuilder(
-        int index) {
-      if (itemsBuilder_ == null) {
-        return items_.get(index);  } else {
-        return itemsBuilder_.getMessageOrBuilder(index);
+        return item_ == null ?
+            grpc.services.checkout.CheckoutItem.getDefaultInstance() : item_;
       }
     }
     /**
@@ -854,63 +686,20 @@ private static final long serialVersionUID = 0L;
      * List of items in the cart
      * </pre>
      *
-     * <code>repeated .checkout.CartItem items = 1;</code>
+     * <code>.checkout.CheckoutItem item = 1;</code>
      */
-    public java.util.List<? extends grpc.services.checkout.CartItemOrBuilder> 
-         getItemsOrBuilderList() {
-      if (itemsBuilder_ != null) {
-        return itemsBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(items_);
-      }
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public grpc.services.checkout.CartItem.Builder addItemsBuilder() {
-      return getItemsFieldBuilder().addBuilder(
-          grpc.services.checkout.CartItem.getDefaultInstance());
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public grpc.services.checkout.CartItem.Builder addItemsBuilder(
-        int index) {
-      return getItemsFieldBuilder().addBuilder(
-          index, grpc.services.checkout.CartItem.getDefaultInstance());
-    }
-    /**
-     * <pre>
-     * List of items in the cart
-     * </pre>
-     *
-     * <code>repeated .checkout.CartItem items = 1;</code>
-     */
-    public java.util.List<grpc.services.checkout.CartItem.Builder> 
-         getItemsBuilderList() {
-      return getItemsFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        grpc.services.checkout.CartItem, grpc.services.checkout.CartItem.Builder, grpc.services.checkout.CartItemOrBuilder> 
-        getItemsFieldBuilder() {
-      if (itemsBuilder_ == null) {
-        itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            grpc.services.checkout.CartItem, grpc.services.checkout.CartItem.Builder, grpc.services.checkout.CartItemOrBuilder>(
-                items_,
-                ((bitField0_ & 0x00000001) == 0x00000001),
+    private com.google.protobuf.SingleFieldBuilderV3<
+        grpc.services.checkout.CheckoutItem, grpc.services.checkout.CheckoutItem.Builder, grpc.services.checkout.CheckoutItemOrBuilder> 
+        getItemFieldBuilder() {
+      if (itemBuilder_ == null) {
+        itemBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            grpc.services.checkout.CheckoutItem, grpc.services.checkout.CheckoutItem.Builder, grpc.services.checkout.CheckoutItemOrBuilder>(
+                getItem(),
                 getParentForChildren(),
                 isClean());
-        items_ = null;
+        item_ = null;
       }
-      return itemsBuilder_;
+      return itemBuilder_;
     }
 
     private java.lang.Object cartId_ = "";
@@ -1052,41 +841,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:checkout.CartContents)
+    // @@protoc_insertion_point(builder_scope:checkout.CheckoutContents)
   }
 
-  // @@protoc_insertion_point(class_scope:checkout.CartContents)
-  private static final grpc.services.checkout.CartContents DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:checkout.CheckoutContents)
+  private static final grpc.services.checkout.CheckoutContents DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new grpc.services.checkout.CartContents();
+    DEFAULT_INSTANCE = new grpc.services.checkout.CheckoutContents();
   }
 
-  public static grpc.services.checkout.CartContents getDefaultInstance() {
+  public static grpc.services.checkout.CheckoutContents getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CartContents>
-      PARSER = new com.google.protobuf.AbstractParser<CartContents>() {
+  private static final com.google.protobuf.Parser<CheckoutContents>
+      PARSER = new com.google.protobuf.AbstractParser<CheckoutContents>() {
     @java.lang.Override
-    public CartContents parsePartialFrom(
+    public CheckoutContents parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new CartContents(input, extensionRegistry);
+      return new CheckoutContents(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<CartContents> parser() {
+  public static com.google.protobuf.Parser<CheckoutContents> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<CartContents> getParserForType() {
+  public com.google.protobuf.Parser<CheckoutContents> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public grpc.services.checkout.CartContents getDefaultInstanceForType() {
+  public grpc.services.checkout.CheckoutContents getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

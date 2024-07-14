@@ -19,6 +19,8 @@ private static final long serialVersionUID = 0L;
     transactionId_ = "";
     total_ = 0F;
     purchasedItems_ = java.util.Collections.emptyList();
+    message_ = "";
+    success_ = false;
   }
 
   @java.lang.Override
@@ -58,11 +60,22 @@ private static final long serialVersionUID = 0L;
           }
           case 26: {
             if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-              purchasedItems_ = new java.util.ArrayList<grpc.services.checkout.CartItem>();
+              purchasedItems_ = new java.util.ArrayList<grpc.services.checkout.CheckoutItem>();
               mutable_bitField0_ |= 0x00000004;
             }
             purchasedItems_.add(
-                input.readMessage(grpc.services.checkout.CartItem.parser(), extensionRegistry));
+                input.readMessage(grpc.services.checkout.CheckoutItem.parser(), extensionRegistry));
+            break;
+          }
+          case 34: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            message_ = s;
+            break;
+          }
+          case 40: {
+
+            success_ = input.readBool();
             break;
           }
           default: {
@@ -157,15 +170,15 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int PURCHASED_ITEMS_FIELD_NUMBER = 3;
-  private java.util.List<grpc.services.checkout.CartItem> purchasedItems_;
+  private java.util.List<grpc.services.checkout.CheckoutItem> purchasedItems_;
   /**
    * <pre>
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  public java.util.List<grpc.services.checkout.CartItem> getPurchasedItemsList() {
+  public java.util.List<grpc.services.checkout.CheckoutItem> getPurchasedItemsList() {
     return purchasedItems_;
   }
   /**
@@ -173,9 +186,9 @@ private static final long serialVersionUID = 0L;
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  public java.util.List<? extends grpc.services.checkout.CartItemOrBuilder> 
+  public java.util.List<? extends grpc.services.checkout.CheckoutItemOrBuilder> 
       getPurchasedItemsOrBuilderList() {
     return purchasedItems_;
   }
@@ -184,7 +197,7 @@ private static final long serialVersionUID = 0L;
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
   public int getPurchasedItemsCount() {
     return purchasedItems_.size();
@@ -194,9 +207,9 @@ private static final long serialVersionUID = 0L;
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  public grpc.services.checkout.CartItem getPurchasedItems(int index) {
+  public grpc.services.checkout.CheckoutItem getPurchasedItems(int index) {
     return purchasedItems_.get(index);
   }
   /**
@@ -204,11 +217,66 @@ private static final long serialVersionUID = 0L;
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  public grpc.services.checkout.CartItemOrBuilder getPurchasedItemsOrBuilder(
+  public grpc.services.checkout.CheckoutItemOrBuilder getPurchasedItemsOrBuilder(
       int index) {
     return purchasedItems_.get(index);
+  }
+
+  public static final int MESSAGE_FIELD_NUMBER = 4;
+  private volatile java.lang.Object message_;
+  /**
+   * <pre>
+   * Result message
+   * </pre>
+   *
+   * <code>string message = 4;</code>
+   */
+  public java.lang.String getMessage() {
+    java.lang.Object ref = message_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      message_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * Result message
+   * </pre>
+   *
+   * <code>string message = 4;</code>
+   */
+  public com.google.protobuf.ByteString
+      getMessageBytes() {
+    java.lang.Object ref = message_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      message_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int SUCCESS_FIELD_NUMBER = 5;
+  private boolean success_;
+  /**
+   * <pre>
+   * Success flag
+   * </pre>
+   *
+   * <code>bool success = 5;</code>
+   */
+  public boolean getSuccess() {
+    return success_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -234,6 +302,12 @@ private static final long serialVersionUID = 0L;
     for (int i = 0; i < purchasedItems_.size(); i++) {
       output.writeMessage(3, purchasedItems_.get(i));
     }
+    if (!getMessageBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, message_);
+    }
+    if (success_ != false) {
+      output.writeBool(5, success_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -253,6 +327,13 @@ private static final long serialVersionUID = 0L;
     for (int i = 0; i < purchasedItems_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(3, purchasedItems_.get(i));
+    }
+    if (!getMessageBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, message_);
+    }
+    if (success_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(5, success_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -278,6 +359,10 @@ private static final long serialVersionUID = 0L;
             other.getTotal()));
     result = result && getPurchasedItemsList()
         .equals(other.getPurchasedItemsList());
+    result = result && getMessage()
+        .equals(other.getMessage());
+    result = result && (getSuccess()
+        == other.getSuccess());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -298,6 +383,11 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + PURCHASED_ITEMS_FIELD_NUMBER;
       hash = (53 * hash) + getPurchasedItemsList().hashCode();
     }
+    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+    hash = (53 * hash) + getMessage().hashCode();
+    hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getSuccess());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -442,6 +532,10 @@ private static final long serialVersionUID = 0L;
       } else {
         purchasedItemsBuilder_.clear();
       }
+      message_ = "";
+
+      success_ = false;
+
       return this;
     }
 
@@ -481,6 +575,8 @@ private static final long serialVersionUID = 0L;
       } else {
         result.purchasedItems_ = purchasedItemsBuilder_.build();
       }
+      result.message_ = message_;
+      result.success_ = success_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -562,6 +658,13 @@ private static final long serialVersionUID = 0L;
             purchasedItemsBuilder_.addAllMessages(other.purchasedItems_);
           }
         }
+      }
+      if (!other.getMessage().isEmpty()) {
+        message_ = other.message_;
+        onChanged();
+      }
+      if (other.getSuccess() != false) {
+        setSuccess(other.getSuccess());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -720,26 +823,26 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.util.List<grpc.services.checkout.CartItem> purchasedItems_ =
+    private java.util.List<grpc.services.checkout.CheckoutItem> purchasedItems_ =
       java.util.Collections.emptyList();
     private void ensurePurchasedItemsIsMutable() {
       if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-        purchasedItems_ = new java.util.ArrayList<grpc.services.checkout.CartItem>(purchasedItems_);
+        purchasedItems_ = new java.util.ArrayList<grpc.services.checkout.CheckoutItem>(purchasedItems_);
         bitField0_ |= 0x00000004;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        grpc.services.checkout.CartItem, grpc.services.checkout.CartItem.Builder, grpc.services.checkout.CartItemOrBuilder> purchasedItemsBuilder_;
+        grpc.services.checkout.CheckoutItem, grpc.services.checkout.CheckoutItem.Builder, grpc.services.checkout.CheckoutItemOrBuilder> purchasedItemsBuilder_;
 
     /**
      * <pre>
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public java.util.List<grpc.services.checkout.CartItem> getPurchasedItemsList() {
+    public java.util.List<grpc.services.checkout.CheckoutItem> getPurchasedItemsList() {
       if (purchasedItemsBuilder_ == null) {
         return java.util.Collections.unmodifiableList(purchasedItems_);
       } else {
@@ -751,7 +854,7 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public int getPurchasedItemsCount() {
       if (purchasedItemsBuilder_ == null) {
@@ -765,9 +868,9 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public grpc.services.checkout.CartItem getPurchasedItems(int index) {
+    public grpc.services.checkout.CheckoutItem getPurchasedItems(int index) {
       if (purchasedItemsBuilder_ == null) {
         return purchasedItems_.get(index);
       } else {
@@ -779,10 +882,10 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder setPurchasedItems(
-        int index, grpc.services.checkout.CartItem value) {
+        int index, grpc.services.checkout.CheckoutItem value) {
       if (purchasedItemsBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -800,10 +903,10 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder setPurchasedItems(
-        int index, grpc.services.checkout.CartItem.Builder builderForValue) {
+        int index, grpc.services.checkout.CheckoutItem.Builder builderForValue) {
       if (purchasedItemsBuilder_ == null) {
         ensurePurchasedItemsIsMutable();
         purchasedItems_.set(index, builderForValue.build());
@@ -818,9 +921,9 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public Builder addPurchasedItems(grpc.services.checkout.CartItem value) {
+    public Builder addPurchasedItems(grpc.services.checkout.CheckoutItem value) {
       if (purchasedItemsBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -838,10 +941,10 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder addPurchasedItems(
-        int index, grpc.services.checkout.CartItem value) {
+        int index, grpc.services.checkout.CheckoutItem value) {
       if (purchasedItemsBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -859,10 +962,10 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder addPurchasedItems(
-        grpc.services.checkout.CartItem.Builder builderForValue) {
+        grpc.services.checkout.CheckoutItem.Builder builderForValue) {
       if (purchasedItemsBuilder_ == null) {
         ensurePurchasedItemsIsMutable();
         purchasedItems_.add(builderForValue.build());
@@ -877,10 +980,10 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder addPurchasedItems(
-        int index, grpc.services.checkout.CartItem.Builder builderForValue) {
+        int index, grpc.services.checkout.CheckoutItem.Builder builderForValue) {
       if (purchasedItemsBuilder_ == null) {
         ensurePurchasedItemsIsMutable();
         purchasedItems_.add(index, builderForValue.build());
@@ -895,10 +998,10 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder addAllPurchasedItems(
-        java.lang.Iterable<? extends grpc.services.checkout.CartItem> values) {
+        java.lang.Iterable<? extends grpc.services.checkout.CheckoutItem> values) {
       if (purchasedItemsBuilder_ == null) {
         ensurePurchasedItemsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -914,7 +1017,7 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder clearPurchasedItems() {
       if (purchasedItemsBuilder_ == null) {
@@ -931,7 +1034,7 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
     public Builder removePurchasedItems(int index) {
       if (purchasedItemsBuilder_ == null) {
@@ -948,9 +1051,9 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public grpc.services.checkout.CartItem.Builder getPurchasedItemsBuilder(
+    public grpc.services.checkout.CheckoutItem.Builder getPurchasedItemsBuilder(
         int index) {
       return getPurchasedItemsFieldBuilder().getBuilder(index);
     }
@@ -959,9 +1062,9 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public grpc.services.checkout.CartItemOrBuilder getPurchasedItemsOrBuilder(
+    public grpc.services.checkout.CheckoutItemOrBuilder getPurchasedItemsOrBuilder(
         int index) {
       if (purchasedItemsBuilder_ == null) {
         return purchasedItems_.get(index);  } else {
@@ -973,9 +1076,9 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public java.util.List<? extends grpc.services.checkout.CartItemOrBuilder> 
+    public java.util.List<? extends grpc.services.checkout.CheckoutItemOrBuilder> 
          getPurchasedItemsOrBuilderList() {
       if (purchasedItemsBuilder_ != null) {
         return purchasedItemsBuilder_.getMessageOrBuilderList();
@@ -988,41 +1091,41 @@ private static final long serialVersionUID = 0L;
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public grpc.services.checkout.CartItem.Builder addPurchasedItemsBuilder() {
+    public grpc.services.checkout.CheckoutItem.Builder addPurchasedItemsBuilder() {
       return getPurchasedItemsFieldBuilder().addBuilder(
-          grpc.services.checkout.CartItem.getDefaultInstance());
+          grpc.services.checkout.CheckoutItem.getDefaultInstance());
     }
     /**
      * <pre>
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public grpc.services.checkout.CartItem.Builder addPurchasedItemsBuilder(
+    public grpc.services.checkout.CheckoutItem.Builder addPurchasedItemsBuilder(
         int index) {
       return getPurchasedItemsFieldBuilder().addBuilder(
-          index, grpc.services.checkout.CartItem.getDefaultInstance());
+          index, grpc.services.checkout.CheckoutItem.getDefaultInstance());
     }
     /**
      * <pre>
      * List of the purchased items 
      * </pre>
      *
-     * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+     * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
      */
-    public java.util.List<grpc.services.checkout.CartItem.Builder> 
+    public java.util.List<grpc.services.checkout.CheckoutItem.Builder> 
          getPurchasedItemsBuilderList() {
       return getPurchasedItemsFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        grpc.services.checkout.CartItem, grpc.services.checkout.CartItem.Builder, grpc.services.checkout.CartItemOrBuilder> 
+        grpc.services.checkout.CheckoutItem, grpc.services.checkout.CheckoutItem.Builder, grpc.services.checkout.CheckoutItemOrBuilder> 
         getPurchasedItemsFieldBuilder() {
       if (purchasedItemsBuilder_ == null) {
         purchasedItemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            grpc.services.checkout.CartItem, grpc.services.checkout.CartItem.Builder, grpc.services.checkout.CartItemOrBuilder>(
+            grpc.services.checkout.CheckoutItem, grpc.services.checkout.CheckoutItem.Builder, grpc.services.checkout.CheckoutItemOrBuilder>(
                 purchasedItems_,
                 ((bitField0_ & 0x00000004) == 0x00000004),
                 getParentForChildren(),
@@ -1030,6 +1133,133 @@ private static final long serialVersionUID = 0L;
         purchasedItems_ = null;
       }
       return purchasedItemsBuilder_;
+    }
+
+    private java.lang.Object message_ = "";
+    /**
+     * <pre>
+     * Result message
+     * </pre>
+     *
+     * <code>string message = 4;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     * Result message
+     * </pre>
+     *
+     * <code>string message = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * Result message
+     * </pre>
+     *
+     * <code>string message = 4;</code>
+     */
+    public Builder setMessage(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      message_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Result message
+     * </pre>
+     *
+     * <code>string message = 4;</code>
+     */
+    public Builder clearMessage() {
+      
+      message_ = getDefaultInstance().getMessage();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Result message
+     * </pre>
+     *
+     * <code>string message = 4;</code>
+     */
+    public Builder setMessageBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      message_ = value;
+      onChanged();
+      return this;
+    }
+
+    private boolean success_ ;
+    /**
+     * <pre>
+     * Success flag
+     * </pre>
+     *
+     * <code>bool success = 5;</code>
+     */
+    public boolean getSuccess() {
+      return success_;
+    }
+    /**
+     * <pre>
+     * Success flag
+     * </pre>
+     *
+     * <code>bool success = 5;</code>
+     */
+    public Builder setSuccess(boolean value) {
+      
+      success_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Success flag
+     * </pre>
+     *
+     * <code>bool success = 5;</code>
+     */
+    public Builder clearSuccess() {
+      
+      success_ = false;
+      onChanged();
+      return this;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

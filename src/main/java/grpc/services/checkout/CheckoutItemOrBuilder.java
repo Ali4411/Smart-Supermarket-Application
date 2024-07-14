@@ -3,8 +3,8 @@
 
 package grpc.services.checkout;
 
-public interface CartItemOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:checkout.CartItem)
+public interface CheckoutItemOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:checkout.CheckoutItem)
     com.google.protobuf.MessageOrBuilder {
 
   /**

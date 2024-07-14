@@ -39,24 +39,24 @@ public interface ReceiptOrBuilder extends
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  java.util.List<grpc.services.checkout.CartItem> 
+  java.util.List<grpc.services.checkout.CheckoutItem> 
       getPurchasedItemsList();
   /**
    * <pre>
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  grpc.services.checkout.CartItem getPurchasedItems(int index);
+  grpc.services.checkout.CheckoutItem getPurchasedItems(int index);
   /**
    * <pre>
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
   int getPurchasedItemsCount();
   /**
@@ -64,17 +64,44 @@ public interface ReceiptOrBuilder extends
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  java.util.List<? extends grpc.services.checkout.CartItemOrBuilder> 
+  java.util.List<? extends grpc.services.checkout.CheckoutItemOrBuilder> 
       getPurchasedItemsOrBuilderList();
   /**
    * <pre>
    * List of the purchased items 
    * </pre>
    *
-   * <code>repeated .checkout.CartItem purchased_items = 3;</code>
+   * <code>repeated .checkout.CheckoutItem purchased_items = 3;</code>
    */
-  grpc.services.checkout.CartItemOrBuilder getPurchasedItemsOrBuilder(
+  grpc.services.checkout.CheckoutItemOrBuilder getPurchasedItemsOrBuilder(
       int index);
+
+  /**
+   * <pre>
+   * Result message
+   * </pre>
+   *
+   * <code>string message = 4;</code>
+   */
+  java.lang.String getMessage();
+  /**
+   * <pre>
+   * Result message
+   * </pre>
+   *
+   * <code>string message = 4;</code>
+   */
+  com.google.protobuf.ByteString
+      getMessageBytes();
+
+  /**
+   * <pre>
+   * Success flag
+   * </pre>
+   *
+   * <code>bool success = 5;</code>
+   */
+  boolean getSuccess();
 }

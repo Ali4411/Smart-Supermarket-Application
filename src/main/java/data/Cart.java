@@ -3,11 +3,9 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
-import grpc.services.smartcart.CartItem;
-
 public class Cart {
     private String cartId;
-    private List<CartItem> cartItems;
+    private List<CartProduct> cartItems;
 
     // Constructor to initialize the cart with an ID and an empty product list
     public Cart(String cartId) {
@@ -16,15 +14,30 @@ public class Cart {
     }
 
     // Method to add a product to the cart
-    public void addProduct(CartItem product) {
-        cartItems.add(product);
+    public void addProduct(CartProduct product) {
+        boolean exists = false;
+        for (CartProduct currentProduct : cartItems) {
+            if (currentProduct.getItemId().equals(product.getItemId())) {
+                currentProduct.setQuantity(currentProduct.getQuantity() + 1);
+                exists = true;
+            }
+        }
+        if(!exists) {
+            cartItems.add(product);
+        }
     }
 
     // Method to remove a product from the cart by ID
     public boolean removeProduct(String productId) {
-        for (CartItem product : cartItems) {
-            if (product.getItemId() == productId) {
-                cartItems.remove(product);
+        for (CartProduct product : cartItems) {
+            if (product.getItemId().equals(productId)) {
+                int quantity = product.getQuantity();
+                if(quantity > 1) {
+                    product.setQuantity(quantity - 1);
+                }
+                else {
+                    cartItems.remove(product);
+                }
                 return true;
             }
         }
@@ -34,7 +47,7 @@ public class Cart {
     // Method to calculate the total cost of the products in the cart
     public float calculateTotalCost() {
         float totalCost = 0;
-        for (CartItem product : cartItems) {
+        for (CartProduct product : cartItems) {
             totalCost += product.getPrice();
         }
         return totalCost;
@@ -49,12 +62,11 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public List<CartItem> getProducts() {
+    public List<CartProduct> getProducts() {
         return cartItems;
     }
 
-    public void setProducts(List<CartItem> products) {
+    public void setProducts(List<CartProduct> products) {
         this.cartItems = products;
     }
-
 }

@@ -30,30 +30,30 @@ public final class CheckoutGrpc {
   public static final String SERVICE_NAME = "checkout.Checkout";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<grpc.services.checkout.CartContents,
-      grpc.services.checkout.CartContents> getTransferForCheckoutMethod;
+  private static volatile io.grpc.MethodDescriptor<grpc.services.checkout.CheckoutRequest,
+      grpc.services.checkout.CheckoutContents> getTransferForCheckoutMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "TransferForCheckout",
-      requestType = grpc.services.checkout.CartContents.class,
-      responseType = grpc.services.checkout.CartContents.class,
+      requestType = grpc.services.checkout.CheckoutRequest.class,
+      responseType = grpc.services.checkout.CheckoutContents.class,
       methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-  public static io.grpc.MethodDescriptor<grpc.services.checkout.CartContents,
-      grpc.services.checkout.CartContents> getTransferForCheckoutMethod() {
-    io.grpc.MethodDescriptor<grpc.services.checkout.CartContents, grpc.services.checkout.CartContents> getTransferForCheckoutMethod;
+  public static io.grpc.MethodDescriptor<grpc.services.checkout.CheckoutRequest,
+      grpc.services.checkout.CheckoutContents> getTransferForCheckoutMethod() {
+    io.grpc.MethodDescriptor<grpc.services.checkout.CheckoutRequest, grpc.services.checkout.CheckoutContents> getTransferForCheckoutMethod;
     if ((getTransferForCheckoutMethod = CheckoutGrpc.getTransferForCheckoutMethod) == null) {
       synchronized (CheckoutGrpc.class) {
         if ((getTransferForCheckoutMethod = CheckoutGrpc.getTransferForCheckoutMethod) == null) {
           CheckoutGrpc.getTransferForCheckoutMethod = getTransferForCheckoutMethod = 
-              io.grpc.MethodDescriptor.<grpc.services.checkout.CartContents, grpc.services.checkout.CartContents>newBuilder()
+              io.grpc.MethodDescriptor.<grpc.services.checkout.CheckoutRequest, grpc.services.checkout.CheckoutContents>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "checkout.Checkout", "TransferForCheckout"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  grpc.services.checkout.CartContents.getDefaultInstance()))
+                  grpc.services.checkout.CheckoutRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  grpc.services.checkout.CartContents.getDefaultInstance()))
+                  grpc.services.checkout.CheckoutContents.getDefaultInstance()))
                   .setSchemaDescriptor(new CheckoutMethodDescriptorSupplier("TransferForCheckout"))
                   .build();
           }
@@ -62,28 +62,28 @@ public final class CheckoutGrpc {
      return getTransferForCheckoutMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<grpc.services.checkout.CartContents,
+  private static volatile io.grpc.MethodDescriptor<grpc.services.checkout.CheckoutContents,
       grpc.services.checkout.Receipt> getProcessPaymentMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "ProcessPayment",
-      requestType = grpc.services.checkout.CartContents.class,
+      requestType = grpc.services.checkout.CheckoutContents.class,
       responseType = grpc.services.checkout.Receipt.class,
       methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-  public static io.grpc.MethodDescriptor<grpc.services.checkout.CartContents,
+  public static io.grpc.MethodDescriptor<grpc.services.checkout.CheckoutContents,
       grpc.services.checkout.Receipt> getProcessPaymentMethod() {
-    io.grpc.MethodDescriptor<grpc.services.checkout.CartContents, grpc.services.checkout.Receipt> getProcessPaymentMethod;
+    io.grpc.MethodDescriptor<grpc.services.checkout.CheckoutContents, grpc.services.checkout.Receipt> getProcessPaymentMethod;
     if ((getProcessPaymentMethod = CheckoutGrpc.getProcessPaymentMethod) == null) {
       synchronized (CheckoutGrpc.class) {
         if ((getProcessPaymentMethod = CheckoutGrpc.getProcessPaymentMethod) == null) {
           CheckoutGrpc.getProcessPaymentMethod = getProcessPaymentMethod = 
-              io.grpc.MethodDescriptor.<grpc.services.checkout.CartContents, grpc.services.checkout.Receipt>newBuilder()
+              io.grpc.MethodDescriptor.<grpc.services.checkout.CheckoutContents, grpc.services.checkout.Receipt>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "checkout.Checkout", "ProcessPayment"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  grpc.services.checkout.CartContents.getDefaultInstance()))
+                  grpc.services.checkout.CheckoutContents.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   grpc.services.checkout.Receipt.getDefaultInstance()))
                   .setSchemaDescriptor(new CheckoutMethodDescriptorSupplier("ProcessPayment"))
@@ -161,8 +161,8 @@ public final class CheckoutGrpc {
      *bidirectional streaming RPC
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents> transferForCheckout(
-        io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents> responseObserver) {
+    public io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutRequest> transferForCheckout(
+        io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutContents> responseObserver) {
       return asyncUnimplementedStreamingCall(getTransferForCheckoutMethod(), responseObserver);
     }
 
@@ -171,7 +171,7 @@ public final class CheckoutGrpc {
      *client-side streaming RPC
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents> processPayment(
+    public io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutContents> processPayment(
         io.grpc.stub.StreamObserver<grpc.services.checkout.Receipt> responseObserver) {
       return asyncUnimplementedStreamingCall(getProcessPaymentMethod(), responseObserver);
     }
@@ -192,14 +192,14 @@ public final class CheckoutGrpc {
             getTransferForCheckoutMethod(),
             asyncBidiStreamingCall(
               new MethodHandlers<
-                grpc.services.checkout.CartContents,
-                grpc.services.checkout.CartContents>(
+                grpc.services.checkout.CheckoutRequest,
+                grpc.services.checkout.CheckoutContents>(
                   this, METHODID_TRANSFER_FOR_CHECKOUT)))
           .addMethod(
             getProcessPaymentMethod(),
             asyncClientStreamingCall(
               new MethodHandlers<
-                grpc.services.checkout.CartContents,
+                grpc.services.checkout.CheckoutContents,
                 grpc.services.checkout.Receipt>(
                   this, METHODID_PROCESS_PAYMENT)))
           .addMethod(
@@ -239,8 +239,8 @@ public final class CheckoutGrpc {
      *bidirectional streaming RPC
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents> transferForCheckout(
-        io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents> responseObserver) {
+    public io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutRequest> transferForCheckout(
+        io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutContents> responseObserver) {
       return asyncBidiStreamingCall(
           getChannel().newCall(getTransferForCheckoutMethod(), getCallOptions()), responseObserver);
     }
@@ -250,7 +250,7 @@ public final class CheckoutGrpc {
      *client-side streaming RPC
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents> processPayment(
+    public io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutContents> processPayment(
         io.grpc.stub.StreamObserver<grpc.services.checkout.Receipt> responseObserver) {
       return asyncClientStreamingCall(
           getChannel().newCall(getProcessPaymentMethod(), getCallOptions()), responseObserver);
@@ -370,7 +370,7 @@ public final class CheckoutGrpc {
       switch (methodId) {
         case METHODID_TRANSFER_FOR_CHECKOUT:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.transferForCheckout(
-              (io.grpc.stub.StreamObserver<grpc.services.checkout.CartContents>) responseObserver);
+              (io.grpc.stub.StreamObserver<grpc.services.checkout.CheckoutContents>) responseObserver);
         case METHODID_PROCESS_PAYMENT:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.processPayment(
               (io.grpc.stub.StreamObserver<grpc.services.checkout.Receipt>) responseObserver);

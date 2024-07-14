@@ -15,15 +15,20 @@ public final class CheckoutServiceImpl {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_checkout_CartContents_descriptor;
+    internal_static_checkout_CheckoutRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_checkout_CartContents_fieldAccessorTable;
+      internal_static_checkout_CheckoutRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_checkout_CartItem_descriptor;
+    internal_static_checkout_CheckoutContents_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_checkout_CartItem_fieldAccessorTable;
+      internal_static_checkout_CheckoutContents_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_checkout_CheckoutItem_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_checkout_CheckoutItem_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_checkout_Receipt_descriptor;
   static final 
@@ -48,24 +53,27 @@ public final class CheckoutServiceImpl {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016checkout.proto\022\010checkout\"Q\n\014CartConten" +
-      "ts\022!\n\005items\030\001 \003(\0132\022.checkout.CartItem\022\017\n" +
-      "\007cart_id\030\002 \001(\t\022\r\n\005total\030\003 \001(\002\"J\n\010CartIte" +
-      "m\022\017\n\007item_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010quan" +
-      "tity\030\003 \001(\005\022\r\n\005price\030\004 \001(\002\"]\n\007Receipt\022\026\n\016" +
-      "transaction_id\030\001 \001(\t\022\r\n\005total\030\002 \001(\002\022+\n\017p" +
-      "urchased_items\030\003 \003(\0132\022.checkout.CartItem" +
-      "\"5\n\014ApplyVoucher\022\017\n\007cart_id\030\001 \001(\t\022\024\n\014vou" +
-      "cher_code\030\002 \001(\t\"[\n\rVoucherResult\022\017\n\007cart" +
-      "_id\030\001 \001(\t\022\027\n\017discount_amount\030\002 \001(\002\022\017\n\007me" +
-      "ssage\030\003 \001(\t\022\017\n\007success\030\004 \001(\0102\326\001\n\010Checkou" +
-      "t\022I\n\023TransferForCheckout\022\026.checkout.Cart" +
-      "Contents\032\026.checkout.CartContents(\0010\001\022=\n\016" +
-      "ProcessPayment\022\026.checkout.CartContents\032\021" +
-      ".checkout.Receipt(\001\022@\n\rApplyDiscount\022\026.c" +
-      "heckout.ApplyVoucher\032\027.checkout.VoucherR" +
-      "esultB/\n\026grpc.services.checkoutB\023Checkou" +
-      "tServiceImplP\001b\006proto3"
+      "\n\016checkout.proto\022\010checkout\"H\n\017CheckoutRe" +
+      "quest\022$\n\004item\030\001 \001(\0132\026.checkout.CheckoutI" +
+      "tem\022\017\n\007cart_id\030\002 \001(\t\"X\n\020CheckoutContents" +
+      "\022$\n\004item\030\001 \001(\0132\026.checkout.CheckoutItem\022\017" +
+      "\n\007cart_id\030\002 \001(\t\022\r\n\005total\030\003 \001(\002\"N\n\014Checko" +
+      "utItem\022\017\n\007item_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n" +
+      "\010quantity\030\003 \001(\005\022\r\n\005price\030\004 \001(\002\"\203\001\n\007Recei" +
+      "pt\022\026\n\016transaction_id\030\001 \001(\t\022\r\n\005total\030\002 \001(" +
+      "\002\022/\n\017purchased_items\030\003 \003(\0132\026.checkout.Ch" +
+      "eckoutItem\022\017\n\007message\030\004 \001(\t\022\017\n\007success\030\005" +
+      " \001(\010\"5\n\014ApplyVoucher\022\017\n\007cart_id\030\001 \001(\t\022\024\n" +
+      "\014voucher_code\030\002 \001(\t\"[\n\rVoucherResult\022\017\n\007" +
+      "cart_id\030\001 \001(\t\022\027\n\017discount_amount\030\002 \001(\002\022\017" +
+      "\n\007message\030\003 \001(\t\022\017\n\007success\030\004 \001(\0102\341\001\n\010Che" +
+      "ckout\022P\n\023TransferForCheckout\022\031.checkout." +
+      "CheckoutRequest\032\032.checkout.CheckoutConte" +
+      "nts(\0010\001\022A\n\016ProcessPayment\022\032.checkout.Che" +
+      "ckoutContents\032\021.checkout.Receipt(\001\022@\n\rAp" +
+      "plyDiscount\022\026.checkout.ApplyVoucher\032\027.ch" +
+      "eckout.VoucherResultB/\n\026grpc.services.ch" +
+      "eckoutB\023CheckoutServiceImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -79,32 +87,38 @@ public final class CheckoutServiceImpl {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_checkout_CartContents_descriptor =
+    internal_static_checkout_CheckoutRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_checkout_CartContents_fieldAccessorTable = new
+    internal_static_checkout_CheckoutRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_checkout_CartContents_descriptor,
-        new java.lang.String[] { "Items", "CartId", "Total", });
-    internal_static_checkout_CartItem_descriptor =
+        internal_static_checkout_CheckoutRequest_descriptor,
+        new java.lang.String[] { "Item", "CartId", });
+    internal_static_checkout_CheckoutContents_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_checkout_CartItem_fieldAccessorTable = new
+    internal_static_checkout_CheckoutContents_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_checkout_CartItem_descriptor,
+        internal_static_checkout_CheckoutContents_descriptor,
+        new java.lang.String[] { "Item", "CartId", "Total", });
+    internal_static_checkout_CheckoutItem_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_checkout_CheckoutItem_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_checkout_CheckoutItem_descriptor,
         new java.lang.String[] { "ItemId", "Name", "Quantity", "Price", });
     internal_static_checkout_Receipt_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_checkout_Receipt_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_checkout_Receipt_descriptor,
-        new java.lang.String[] { "TransactionId", "Total", "PurchasedItems", });
+        new java.lang.String[] { "TransactionId", "Total", "PurchasedItems", "Message", "Success", });
     internal_static_checkout_ApplyVoucher_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_checkout_ApplyVoucher_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_checkout_ApplyVoucher_descriptor,
         new java.lang.String[] { "CartId", "VoucherCode", });
     internal_static_checkout_VoucherResult_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_checkout_VoucherResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_checkout_VoucherResult_descriptor,

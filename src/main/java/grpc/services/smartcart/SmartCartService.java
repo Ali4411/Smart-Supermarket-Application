@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import data.Cart;
-import data.DataStore;
+import data.CartDataStore;
+import data.CartProduct;
 import grpc.services.inventorymanagement.InventoryManagerGrpc;
 import grpc.services.inventorymanagement.InventoryManagerGrpc.InventoryManagerBlockingStub;
 import grpc.services.inventorymanagement.ItemInfo;
@@ -31,7 +32,7 @@ public class SmartCartService extends SmartCartImplBase {
 			    .build()
 			    .start();
 			 
-			DataStore.initializeCarts();
+			CartDataStore.initializeCarts();
 
 			logger.info("Server started, listening on " + port);
 			
@@ -52,11 +53,11 @@ public class SmartCartService extends SmartCartImplBase {
     public void addToCart(CartUpdateRequest request, StreamObserver<CartStatus> responseObserver) {
         String cartId = request.getCartId(); 
 		String productId = request.getItemId(); 
-		Cart c = DataStore.getCart(cartId);
+		Cart c = CartDataStore.getCart(cartId);
 		ItemInfo item = getProductFromInventory(productId);
-		CartItem cartItem = CartItem.newBuilder().setItemId(item.getItemId()).setName(item.getName()).setPrice(item.getPrice()).setQuantity(1).build();
 
-		c.addProduct(cartItem);
+		CartProduct cp = new CartProduct(item.getItemId(), item.getName(), item.getPrice(), 1);
+		c.addProduct(cp);
 
 		CartStatus reply = CartStatus.newBuilder().setSuccess(true).setMessage("Item added to cart.").build();
 	     
@@ -67,14 +68,38 @@ public class SmartCartService extends SmartCartImplBase {
 
     @Override
     public void getCartContents(CartRequest request, StreamObserver<CartContents> responseObserver) {
-        // TODO Auto-generated method stub
-        super.getCartContents(request, responseObserver);
+        String cartId = request.getCartId(); 
+		Cart c = CartDataStore.getCart(cartId);
+
+		
+		float totalCost = 0;
+		for (CartProduct product : c.getProducts()) {
+			totalCost += product.getPrice() * product.getQuantity();
+			CartItem cartItem = CartItem.newBuilder().setItemId(product.getItemId()).setName(product.getName()).setPrice(product.getPrice()).setQuantity(product.getQuantity()).build();
+
+			CartContents reply = CartContents.newBuilder().setCartId(cartId).setTotal(totalCost).setItem(cartItem).build();
+			responseObserver.onNext(reply);
+		}
+	     
+	    responseObserver.onCompleted();
     }
 
     @Override
     public void removeFromCart(CartUpdateRequest request, StreamObserver<CartStatus> responseObserver) {
-        // TODO Auto-generated method stub
-        super.removeFromCart(request, responseObserver);
+        String cartId = request.getCartId(); 
+		String productId = request.getItemId(); 
+		Cart c = CartDataStore.getCart(cartId);
+
+		CartStatus reply;	
+		if(c.removeProduct(productId)){
+		 	reply = CartStatus.newBuilder().setSuccess(true).setMessage("Item removed from cart.").build();
+		} else {
+			reply = CartStatus.newBuilder().setSuccess(false).setMessage("Item doesn't exist in cart.").build();
+		}
+	     
+		responseObserver.onNext(reply);
+	     
+	    responseObserver.onCompleted();
     }
 
 	private ItemInfo getProductFromInventory(String productId)
@@ -83,12 +108,9 @@ public class SmartCartService extends SmartCartImplBase {
         InventoryManagerBlockingStub blockingStub = InventoryManagerGrpc.newBlockingStub(channel);
 
         //preparing message to send
-        ItemRequest request = ItemRequest.newBuilder().setItemId("item_003").build();
+        ItemRequest request = ItemRequest.newBuilder().setItemId(productId).build();
 
         //retreving reply from service
         return blockingStub.getItemInfo(request);
 	}
-
-    
-    
 }

@@ -10,21 +10,27 @@ package checkout;
 
 // The Checkout service definition.
 service Checkout {
-    rpc TransferForCheckout (stream CartContents) returns (stream CartContents); //bidirectional streaming RPC
-    rpc ProcessPayment (stream CartContents) returns (Receipt); //client-side streaming RPC
+    rpc TransferForCheckout (stream CheckoutRequest) returns (stream CheckoutContents); //bidirectional streaming RPC
+    rpc ProcessPayment (stream CheckoutContents) returns (Receipt); //client-side streaming RPC
     rpc ApplyDiscount (ApplyVoucher) returns (VoucherResult); //simple RPC
   }
+ 
+  // The request message containing the list of items in the cart.
+  message CheckoutRequest {
+    CheckoutItem item = 1; // List of items in the cart
+    string cart_id = 2; // ID of the cart
+  }
 
-  // The request/response message containing the list of items and total price in the cart.
-  message CartContents {
-    repeated CartItem items = 1; // List of items in the cart
+  // The response message containing the list of items and total price in the checkout.
+  message CheckoutContents {
+    CheckoutItem item = 1; // List of items in the cart
     string cart_id = 2; // ID of the cart
     float total = 3; // Total price of all items in the cart
   }
 
 
   // The request/response message containing the item ID, name, quantity in the cart and price.
-  message CartItem {
+  message CheckoutItem {
     string item_id = 1; // ID of the item
     string name = 2; // Name of the item
     int32 quantity = 3; // Quantity of the item in the cart
@@ -34,7 +40,9 @@ service Checkout {
   message Receipt {
     string transaction_id = 1; // ID of the transaction
     float total = 2; // Total price of all items in the cart
-    repeated CartItem purchased_items = 3; // List of the purchased items 
+    repeated CheckoutItem purchased_items = 3; // List of the purchased items 
+    string message = 4; // Result message
+    bool success = 5; // Success flag
   }
 
   message ApplyVoucher {
