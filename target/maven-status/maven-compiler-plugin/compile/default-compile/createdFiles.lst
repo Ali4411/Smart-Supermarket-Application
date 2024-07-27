@@ -1,4 +1,3 @@
-grpc\services\checkout\CheckoutItem$1.class
 grpc\services\inventorymanagement\UpdateRequest$1.class
 grpc\services\inventorymanagement\UpdateRequestOrBuilder.class
 grpc\services\smartcart\CartRequest.class
@@ -20,12 +19,9 @@ grpc\services\smartcart\CartRequestOrBuilder.class
 grpc\services\smartcart\SmartCartGrpc$SmartCartFutureStub.class
 grpc\services\checkout\CheckoutContents$Builder.class
 grpc\services\smartcart\CartContents$Builder.class
-grpc\services\checkout\CheckoutRequest$Builder.class
-grpc\services\checkout\CheckoutRequest$1.class
 grpc\services\inventorymanagement\ItemRequest$1.class
 grpc\services\smartcart\SmartCartGrpc$SmartCartStub.class
 grpc\services\smartcart\CartRequest$1.class
-grpc\services\checkout\CheckoutRequest.class
 grpc\services\smartcart\SmartCartGrpc$MethodHandlers.class
 grpc\services\checkout\CheckoutContentsOrBuilder.class
 grpc\services\smartcart\CartUpdateRequest$Builder.class

@@ -15,16 +15,21 @@ import grpc.services.checkout.Receipt;
 import grpc.services.checkout.VoucherResult;
 import grpc.services.smartcart.CartItem;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
 public class CheckoutClient
 {
-    private static float totalCheckoutCost = 0;
-    private static List<CheckoutItem> itemsForCheckout = new ArrayList<CheckoutItem>();
-    private static ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
+    private float totalCheckoutCost;
+    private List<CheckoutItem> itemsForCheckout;
+    private ManagedChannel channel;
 
-    public static void transferCart(List<CartItem> cartitems, String cartId) throws InterruptedException
+    public CheckoutClient(ManagedChannel channel) {
+        this.channel = channel;
+        totalCheckoutCost = 0;
+        itemsForCheckout = new ArrayList<CheckoutItem>();
+    }
+
+    public void transferCart(List<CartItem> cartitems, String cartId) throws InterruptedException
     {
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
@@ -83,7 +88,7 @@ public class CheckoutClient
         }
     }
 
-    public static void applyVoucher(String cartId, String voucherCode)
+    public void applyVoucher(String cartId, String voucherCode)
     {
         CheckoutBlockingStub checkoutBlockingStub = CheckoutGrpc.newBlockingStub(channel);
 
@@ -98,7 +103,7 @@ public class CheckoutClient
         System.out.println("--------------------------------");
     }
 
-    public static void completePayment(String cartId) throws InterruptedException
+    public void completePayment(String cartId) throws InterruptedException
     {
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
@@ -138,7 +143,7 @@ public class CheckoutClient
         StreamObserver<CheckoutContents> requestObserver = CheckoutGrpc.newStub(channel).processPayment(responseObserver);
 
         try {
-        // Send numPoints points randomly selected from the features list.
+            // Send numPoints points randomly selected from the features list.
             for (CheckoutItem ci : itemsForCheckout) {
                 CheckoutItem item = CheckoutItem.newBuilder().setItemId(ci.getItemId()).setQuantity(ci.getQuantity()).build();
                 CheckoutContents request = CheckoutContents.newBuilder().setCartId(cartId).setItem(item).setTotal(totalCheckoutCost).build();

@@ -8,14 +8,16 @@ import grpc.services.inventorymanagement.UpdateRequest;
 import grpc.services.inventorymanagement.InventoryManagerGrpc.InventoryManagerBlockingStub;
 import grpc.services.inventorymanagement.ItemInfo;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 
 public class InventoryClient {
+    private InventoryManagerBlockingStub blockingStub;
 
-    private static ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-    private static InventoryManagerBlockingStub blockingStub = InventoryManagerGrpc.newBlockingStub(channel);
+    public InventoryClient(ManagedChannel channel)
+    {
+        blockingStub = InventoryManagerGrpc.newBlockingStub(channel);
+    }
 
-    public static StockLevel CheckStock(String productid) {
+    public StockLevel CheckStock(String productid) {
         //preparing message to send
         ItemRequest request = ItemRequest.newBuilder().setItemId(productid).build();
 
@@ -28,7 +30,7 @@ public class InventoryClient {
         return response;
     }
 
-    public static ItemInfo getItemInfo(String productid) {
+    public ItemInfo getItemInfo(String productid) {
         //preparing message to send
         ItemRequest request = ItemRequest.newBuilder().setItemId(productid).build();
 
@@ -44,8 +46,7 @@ public class InventoryClient {
         return response;
     }
 
-
-    public static Status UpdateStock(String productid, int quantityToIncrease) {
+    public Status UpdateStock(String productid, int quantityToIncrease) {
 
         //preparing message to send
         UpdateRequest request = UpdateRequest.newBuilder().setItemId(productid).setQuantity(quantityToIncrease).build();

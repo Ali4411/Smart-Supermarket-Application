@@ -9,6 +9,8 @@ import grpc.services.inventorymanagement.InventoryManagerGrpc.InventoryManagerIm
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import jmdns.JmDNSUtil;
+import jmdns.ServiceDiscovery;
 
 public class InventoryManagerService extends InventoryManagerImplBase {
 
@@ -29,8 +31,14 @@ public class InventoryManagerService extends InventoryManagerImplBase {
 			ProductDataStore.initializeProducts();
 
 			logger.info("Server started, listening on " + port);
+
+			ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
+            serviceDiscovery.discoverServices();
+
+            JmDNSUtil jmdnsUtil = new JmDNSUtil();
+            jmdnsUtil.registerService("inventory_service", port);
 			
-			 server.awaitTermination();
+			server.awaitTermination();
 
 			 
 		} catch (IOException e) {
@@ -51,7 +59,7 @@ public class InventoryManagerService extends InventoryManagerImplBase {
 		if(p != null){
 			stock = p.getStock();
 		} else {
-			// ??????????
+			stock = 0;
 		}
 
 		StockLevel reply = StockLevel.newBuilder().setItemId(id).setQuantity(stock).build();

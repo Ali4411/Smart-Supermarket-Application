@@ -1,7 +1,13 @@
 package grpc.services.smartcart;
 
+import static io.grpc.MethodDescriptor.newBuilder;
+
 import java.io.IOException;
 import java.util.logging.Logger;
+
+import javax.jmdns.ServiceInfo;
+
+import org.checkerframework.checker.units.qual.s;
 
 import data.Cart;
 import data.CartDataStore;
@@ -16,11 +22,15 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import jmdns.JmDNSUtil;
+import jmdns.ServiceDiscovery;
 
 public class SmartCartService extends SmartCartImplBase {
     private static final Logger logger = Logger.getLogger(SmartCartService.class.getName());
+	private static final String inventoryServiceName = "inventory_service";
 
     private static InventoryManagerBlockingStub inventoryStub;
+	private static ServiceDiscovery serviceDiscovery;
 
     public static void main(String[] args) {
 		
@@ -36,14 +46,16 @@ public class SmartCartService extends SmartCartImplBase {
 			 
 			CartDataStore.initializeCarts();
 
-			ManagedChannel inventoryChannel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-            inventoryStub = InventoryManagerGrpc.newBlockingStub(inventoryChannel);
-
 			logger.info("Server started, listening on " + port);
-			
-			 server.awaitTermination();
 
-			 
+			serviceDiscovery = new ServiceDiscovery();
+            serviceDiscovery.discoverServices();
+
+            JmDNSUtil jmdnsUtil = new JmDNSUtil();
+            jmdnsUtil.registerService("cart_service", port);
+			
+			server.awaitTermination();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,10 +121,26 @@ public class SmartCartService extends SmartCartImplBase {
 
 	private ItemInfo getProductFromInventory(String productId)
 	{
+		if(inventoryStub == null){
+			ManagedChannel inventoryChannel = getChannelForService(inventoryServiceName);
+			inventoryStub = InventoryManagerGrpc.newBlockingStub(inventoryChannel);
+		}
         //preparing message to send
         ItemRequest request = ItemRequest.newBuilder().setItemId(productId).build();
 
         //retreving reply from service
         return inventoryStub.getItemInfo(request);
 	}
+
+	private ManagedChannel getChannelForService(String serviceName) {
+        ServiceInfo serviceInfo = serviceDiscovery.getServiceByName(serviceName);
+        if (serviceInfo == null) {
+            throw new IllegalStateException("Service not found: " + serviceName);
+        }
+
+        String host = serviceInfo.getHostAddresses()[0];
+        int port = serviceInfo.getPort();
+
+        return ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+    }
 }

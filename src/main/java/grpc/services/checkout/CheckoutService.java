@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import javax.jmdns.ServiceInfo;
+
 import data.CartProduct;
 import data.CheckoutCart;
 import data.CheckoutDataStore;
-import data.Product;
-import data.ProductDataStore;
 import data.Voucher;
 import grpc.services.checkout.CheckoutGrpc.CheckoutImplBase;
 import grpc.services.inventorymanagement.InventoryManagerGrpc;
@@ -18,9 +18,7 @@ import grpc.services.inventorymanagement.InventoryManagerGrpc.InventoryManagerBl
 import grpc.services.inventorymanagement.ItemInfo;
 import grpc.services.inventorymanagement.ItemRequest;
 import grpc.services.inventorymanagement.Status;
-import grpc.services.inventorymanagement.StockLevel;
 import grpc.services.inventorymanagement.UpdateRequest;
-import grpc.services.smartcart.CartStatus;
 import grpc.services.smartcart.CartUpdateRequest;
 import grpc.services.smartcart.SmartCartGrpc;
 import grpc.services.smartcart.SmartCartGrpc.SmartCartBlockingStub;
@@ -29,11 +27,18 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import jmdns.JmDNSUtil;
+import jmdns.ServiceDiscovery;
 
 public class CheckoutService extends CheckoutImplBase {
     private static final Logger logger = Logger.getLogger(CheckoutService.class.getName());
-    private static SmartCartBlockingStub cartBlockingStub;
-    private static InventoryManagerBlockingStub inventoryblockingStub;
+    private static final String inventoryServiceName = "inventory_service";
+    private static final String cartServiceName = "cart_service";
+
+    private static InventoryManagerBlockingStub inventoryStub;
+    private static SmartCartBlockingStub cartStub;
+    
+    private static ServiceDiscovery serviceDiscovery;
 
     public static void main(String[] args) {
 		
@@ -47,15 +52,15 @@ public class CheckoutService extends CheckoutImplBase {
 			    .build()
 			    .start();
 
+            logger.info("Server started, listening on " + port);
+
+            serviceDiscovery = new ServiceDiscovery();
+            serviceDiscovery.discoverServices();
+
+            JmDNSUtil jmdnsUtil = new JmDNSUtil();
+            jmdnsUtil.registerService("checkout_service", port);
+
             CheckoutDataStore.initializeCheckout();
-
-            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-            inventoryblockingStub = InventoryManagerGrpc.newBlockingStub(channel);
-
-            ManagedChannel cartChannel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
-            cartBlockingStub = SmartCartGrpc.newBlockingStub(cartChannel);
-
-			logger.info("Server started, listening on " + port);
 			
 			server.awaitTermination();
 			 
@@ -188,32 +193,56 @@ public class CheckoutService extends CheckoutImplBase {
 
     private ItemInfo getProductFromInventory(String productId)
 	{
+        if(inventoryStub == null){
+			ManagedChannel inventoryChannel = getChannelForService(inventoryServiceName);
+			inventoryStub = InventoryManagerGrpc.newBlockingStub(inventoryChannel);
+		}
+
         //preparing message to send
         ItemRequest request = ItemRequest.newBuilder().setItemId(productId).build();
 
         //retreving reply from service
-        return inventoryblockingStub.getItemInfo(request);
+        return inventoryStub.getItemInfo(request);
 	}
 
     private Status reduceInventoryStock(String productId, int amountToReduce)
 	{
+        if(inventoryStub == null){
+			ManagedChannel inventoryChannel = getChannelForService(inventoryServiceName);
+			inventoryStub = InventoryManagerGrpc.newBlockingStub(inventoryChannel);
+		}
+
         //preparing message to send
         UpdateRequest request = UpdateRequest.newBuilder().setItemId(productId).setQuantity(-amountToReduce).build();
 
         //retreving reply from service
-        return inventoryblockingStub.updateStock(request);
+        return inventoryStub.updateStock(request);
 	}
 
     private void removeItemFromCart(String cartId, String productId, int amountToReduce)
 	{
+        if(cartStub == null){
+			ManagedChannel cartChannel = getChannelForService(cartServiceName);
+			cartStub = SmartCartGrpc.newBlockingStub(cartChannel);
+		}
+
         for(int i =0; i < amountToReduce; i++) {
             CartUpdateRequest request5 = CartUpdateRequest.newBuilder().setCartId(cartId).setItemId(productId).build();
 
             //retreving reply from service
-            cartBlockingStub.removeFromCart(request5);
+            cartStub.removeFromCart(request5);
         }
-        
 	}
 
-    
+    private ManagedChannel getChannelForService(String serviceName) {
+        ServiceInfo serviceInfo = serviceDiscovery.getServiceByName(serviceName);
+        if (serviceInfo == null) {
+            throw new IllegalStateException("Service not found: " + serviceName);
+        }
+
+        String host = serviceInfo.getHostAddresses()[0];
+        int port = serviceInfo.getPort();
+
+        return ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+    }
 }
