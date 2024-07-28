@@ -42,11 +42,9 @@ public class InventoryManagerService extends InventoryManagerImplBase {
 
 			 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -82,9 +80,7 @@ public class InventoryManagerService extends InventoryManagerImplBase {
 			name = p.getName();
 			description = p.getDescription();
 			price = p.getPrice();
-		} else {
-			// ??????????
-		}
+		} 
 
 		ItemInfo reply = ItemInfo.newBuilder().setItemId(id).setName(name).setDescription(description).setPrice(price).build();
 	     
@@ -105,16 +101,6 @@ public class InventoryManagerService extends InventoryManagerImplBase {
 		 responseObserver.onNext(reply);
 	     
 	     responseObserver.onCompleted();
-
-		 // failed????
-		
-
     }
-	
-	
-
-
-	
-
 }
 

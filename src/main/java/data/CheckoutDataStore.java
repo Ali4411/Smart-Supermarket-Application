@@ -10,10 +10,9 @@ public class CheckoutDataStore {
     public static void initializeCheckout(){
         cartsInCheckout = new ArrayList<>();
         vouchers = new ArrayList<>();
+        vouchers.add(new Voucher("Save1", 1));
+        vouchers.add(new Voucher("Save2", 2));
         vouchers.add(new Voucher("Save5", 5));
-        vouchers.add(new Voucher("Save10", 10));
-        vouchers.add(new Voucher("Save15", 15));
-        vouchers.add(new Voucher("Save20", 20));
     }
 
     // Method to get a vouvher based on its vouvher code

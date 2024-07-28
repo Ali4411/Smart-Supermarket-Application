@@ -29,6 +29,14 @@ public class CheckoutClient
         itemsForCheckout = new ArrayList<CheckoutItem>();
     }
 
+    public float getTotalCheckoutCost() {
+        return totalCheckoutCost;
+    }
+
+    public List<CheckoutItem> getItemsForCheckout() {
+        return itemsForCheckout;
+    }
+
     public void transferCart(List<CartItem> cartitems, String cartId) throws InterruptedException
     {
         final CountDownLatch finishLatch = new CountDownLatch(1);
@@ -61,7 +69,6 @@ public class CheckoutClient
         StreamObserver<CheckoutRequest> requestObserver = CheckoutGrpc.newStub(channel).transferForCheckout(responseObserver);
 
         try {
-        // Send numPoints points randomly selected from the features list.
             for (CartItem ci : cartitems) {
                 CheckoutItem item = CheckoutItem.newBuilder().setItemId(ci.getItemId()).setQuantity(ci.getQuantity()).build();
                 CheckoutRequest request = CheckoutRequest.newBuilder().setCartId(cartId).setItem(item).build();
@@ -88,7 +95,7 @@ public class CheckoutClient
         }
     }
 
-    public void applyVoucher(String cartId, String voucherCode)
+    public VoucherResult applyVoucher(String cartId, String voucherCode)
     {
         CheckoutBlockingStub checkoutBlockingStub = CheckoutGrpc.newBlockingStub(channel);
 
@@ -101,6 +108,8 @@ public class CheckoutClient
         System.out.println("Success: " + response.getSuccess());
         System.out.println("Discount: " + response.getDiscountAmount());
         System.out.println("--------------------------------");
+
+        return response;
     }
 
     public void completePayment(String cartId) throws InterruptedException
@@ -143,13 +152,12 @@ public class CheckoutClient
         StreamObserver<CheckoutContents> requestObserver = CheckoutGrpc.newStub(channel).processPayment(responseObserver);
 
         try {
-            // Send numPoints points randomly selected from the features list.
             for (CheckoutItem ci : itemsForCheckout) {
                 CheckoutItem item = CheckoutItem.newBuilder().setItemId(ci.getItemId()).setQuantity(ci.getQuantity()).build();
                 CheckoutContents request = CheckoutContents.newBuilder().setCartId(cartId).setItem(item).setTotal(totalCheckoutCost).build();
                 requestObserver.onNext(request);
                 // Sleep for a bit before sending the next one.
-                Thread.sleep(500);
+                Thread.sleep(100);
                 if (finishLatch.getCount() == 0) {
                     // RPC completed or errored before we finished sending.
                     // Sending further requests won't error, but they will just be thrown away.
